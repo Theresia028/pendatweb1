@@ -15,7 +15,7 @@ from sklearn.metrics import make_scorer, accuracy_score,precision_score
 warnings.filterwarnings('ignore', category=UserWarning, append=True)
 
 # data
-df = pd.read_csv("https://raw.githubusercontent.com/08-Ahlaqul-Karimah/machine-Learning/main/mushrooms.csv")
+df = pd.read_csv("https://raw.githubusercontent.com/Theresia028/pendatweb1/main/covid-liver.csv")
 df.head()
 
 # normalisasi

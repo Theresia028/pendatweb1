@@ -36,7 +36,7 @@ y = df['class'].values
 from sklearn.model_selection import train_test_split
 x_train,x_test,y_train,y_test = train_test_split(x,y,test_size=0.2,random_state=1)
 
-st.set_page_config(page_title="Ima")
+st.set_page_config(page_title="tere")
 @st.cache()
 def progress():
     with st.spinner("Bentar ya....."):
@@ -48,7 +48,7 @@ dataframe, preporcessing, modeling, implementation = st.tabs(
     ["Jamur Data", "Prepocessing", "Modeling", "Implementation"])
 
 with dataframe:
-    st.write('Data Jamur')
+    st.write('Data Covid-19 Liver')
     dataset,data= st.tabs(['Dataset',"data"])
     with dataset:
         st.dataframe(df)

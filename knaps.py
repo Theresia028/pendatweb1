@@ -1,191 +1,129 @@
+# import numpy as np
+# import pandas as pd
+# # import seaborn as sns
+# import sklearn
+# from sklearn.preprocessing import LabelEncoder
+# from sklearn.preprocessing import OneHotEncoder
+# from sklearn.model_selection import train_test_split
+# from sklearn.metrics import accuracy_score
+import sklearn
 import streamlit as st
-import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
-from PIL import Image
-from collections import OrderedDict
-
-#Metrics
+import pandas as pd 
+import numpy as np 
+import warnings
 from sklearn.metrics import make_scorer, accuracy_score,precision_score
-from sklearn.metrics import classification_report
-from sklearn.metrics import confusion_matrix
-from sklearn.metrics import accuracy_score ,precision_score,recall_score,f1_score
+warnings.filterwarnings('ignore', category=UserWarning, append=True)
 
-#Model Select
-from sklearn.model_selection import KFold,train_test_split,cross_val_score
-from sklearn.ensemble import RandomForestClassifier
+# data
+df = pd.read_csv("https://raw.githubusercontent.com/08-Ahlaqul-Karimah/machine-Learning/main/mushrooms.csv")
+df.head()
+
+# normalisasi
+# data yang dipakai 2000 data
+# pemisahan class dan fitur
+df=df[:2000]
+from sklearn.preprocessing import OrdinalEncoder
+x = df.drop(df[['class']],axis=1)
+enc = OrdinalEncoder()
+a = enc.fit_transform(x)
+x=pd.DataFrame(a, columns=x.columns)
+
+# class
+y = df.loc[:, "class"]
+y = df['class'].values
+
+# Split Data
 from sklearn.model_selection import train_test_split
-from sklearn.linear_model import  LogisticRegression
-from sklearn.ensemble import RandomForestClassifier
-from sklearn import linear_model
-from sklearn.linear_model import SGDClassifier
-from sklearn.tree import DecisionTreeClassifier 
-from sklearn import svm
-from sklearn import metrics 
+x_train,x_test,y_train,y_test = train_test_split(x,y,test_size=0.2,random_state=1)
 
-st.title(' Aplikasi Web Data Mining')
-st.write("""
-### Klasifikasi Covid-19 pada liver menggunakan Metode Decision tree, Random forest, dan SVM
-""")
-st.sidebar.write("""
-            ### Pilih Metode yang anda inginkan :"""
-            )
-algoritma=st.sidebar.selectbox(
-    'Pilih', ('Decision Tree','Random Forest','SVM')
-)
+st.set_page_config(page_title="Ima")
+@st.cache()
+def progress():
+    with st.spinner("Bentar ya....."):
+        time.sleep(1)
+        
+st.title("UAS PENDAT")
 
-st.write('## 2. About Dataset (Heart Failure)')
-data_hf = pd.read_csv("https://raw.githubusercontent.com/Theresia028/pendatweb1/main/covid-liver.csv")
-st.write("Dataset Covid-19 Liver : (https://raw.githubusercontent.com/Theresia028/pendatweb1/main/covid-liver.csv) ", data_hf)
+dataframe, preporcessing, modeling, implementation = st.tabs(
+    ["Jamur Data", "Prepocessing", "Modeling", "Implementation"])
 
-st.write('Dataset Description :')
-st.write('1. Cancer: Age of the patient')
-st.write('2. Year: Haemoglobin level of patient')
-st.write('3. Month: Level of the CPK enzyme in the blood (mcg/L)')
-st.write('4. Bleed: If the patient has diabetes (Boolean)')
-st.write('5. Mode_Presentation: Percentage of blood leaving the heart at each contraction')
-st.write('6. Age: If the patient has hypertension(Boolean)')
-st.write('7. Gender: Platelet count of blood (kiloplatelets/mL)')
-st.write('8. Etiology: Level of serum creatinine in the blood (mg/dL)')
-st.write('9. Cirrhosis: Level of serum sodium in the blood (mEq/L)')
-st.write('10. Size: Sex of the patient(Boolean)')
-st.write('11. HCC_TNM_Stage: If the patient smokes or not(Boolean)')
-st.write('12. HCC_BCLC_Stage: Follow-up period')
-st.write('13. ICC_TNM_Stage: If the patient deceased during the follow-up period')
-st.write('14. Treatment_grps: If the patient deceased during the follow-up period')
-st.write('15. Survival_fromMDM: If the patient deceased during the follow-up period')
-st.write('16. Alive_Dead: If the patient deceased during the follow-up period')
- 
-st.write('Jumlah baris dan kolom :', data_hf.shape)
+with dataframe:
+    st.write('Data Jamur')
+    dataset,data= st.tabs(['Dataset',"data"])
+    with dataset:
+        st.dataframe(df)
 
-X=data_hf.iloc[:,0:12].values 
-y=data_hf.iloc[:,12].values
+        
+with preporcessing:
+    st.write('Ordinal Encoder')
+    st.dataframe(x)
 
-st.write('Jumlah kelas : ', len(np.unique(y)))
+with modeling:
+    # pisahkan fitur dan label
+    knn,lainnya= st.tabs(
+        ["K-Nearest Neighbor","lainnya"])
+    with knn:
+      from sklearn.neighbors import KNeighborsClassifier
+      knn = KNeighborsClassifier(n_neighbors=3)
+      knn.fit(x_train,y_train)
+      y_pred_knn = knn.predict(x_test) 
+      accuracy_knn=round(accuracy_score(y_test,y_pred_knn)* 100, 2)
+      acc_knn = round(knn.score(x_train, y_train) * 100, 2)
+      label_knn = pd.DataFrame(
+      data={'Label Test': y_test, 'Label Predict': y_pred_knn}).reset_index()
+      st.success(f'Tingkat akurasi = {acc_knn}')
+      st.dataframe(label_knn)
 
-from sklearn.preprocessing import LabelEncoder
-le = LabelEncoder()
-y = le.fit_transform(y)
+with implementation:
+      df=df[:2000]
+      from sklearn.preprocessing import OrdinalEncoder
+      x = df.drop(df[['class']],axis=1)
+      enc = OrdinalEncoder()
+      a = enc.fit_transform(x)
+      x=pd.DataFrame(a, columns=x.columns)
+#       x_new = ['x','y','y','t','l','f','c','b','g','e','c','s','s','w','w','p','w','o','p','k','s','m'] # hasil=0/e
+      x_new = ["x","s","w","t","p","f","c","n","k","e","e","s","s","w","w","p","w","o","p","k","v","g"] # hasil=1/p
+      hinput=enc.transform(np.array([x_new]))
+      hinput
+      from sklearn.neighbors import KNeighborsClassifier
+      knn = KNeighborsClassifier(n_neighbors=3)
+      knn.fit(x_train,y_train)
+      Y_pred = knn.predict(x_test) 
+      accuracy_knn=round(accuracy_score(y_test,Y_pred)* 100, 2)
+      acc_knn = round(knn.score(x_train, y_train) * 100, 2)
+      accuracy_knn
+      acc_knn
+      y_predict = knn.predict(hinput)
+      st.write("Hasil prediksi adalah",y_predict[0])
+      # return y_predict[0]
 
+# # KNN
+# from sklearn.neighbors import KNeighborsClassifier
+# knn = KNeighborsClassifier(n_neighbors=3)
+# knn.fit(x_train,y_train)
 
-#Train and Test split
-X_train,X_test,y_train,y_test=train_test_split(X,y,test_size=0.3,random_state=0)
+# # Akurasi
+# Y_pred = knn.predict(x_test) 
+# accuracy_knn=round(accuracy_score(y_test,Y_pred)* 100, 2)
+# acc_knn = round(knn.score(x_train, y_train) * 100, 2)
+# accuracy_knn
+# acc_knn
 
-# Decision Tree
-decision_tree = DecisionTreeClassifier() 
-decision_tree.fit(X_train, y_train)  
-Y_pred = decision_tree.predict(X_test) 
-accuracy_dt=round(accuracy_score(y_test,Y_pred)* 100, 2)
-acc_decision_tree = round(decision_tree.score(X_train, y_train) * 100, 2)
+# x_new = ['x','y','y','t','l','f','c','b','g','e','c','s','s','w','w','p','w','o','p','k','s','m'] # hasil=0/e
+# # x_new = ["x","s","w","t","p","f","c","n","k","e","e","s","s","w","w","p","w","o","p","k","v","g"] # hasil=1/p
+# hinput=enc.transform(np.array([x_new]))
+# hinput
 
-cm = confusion_matrix(y_test, Y_pred)
-accuracy = accuracy_score(y_test,Y_pred)
-precision =precision_score(y_test, Y_pred,average='micro')
-recall =  recall_score(y_test, Y_pred,average='micro')
-f1 = f1_score(y_test,Y_pred,average='micro')
-print('Confusion matrix for DecisionTree\n',cm)
-print('accuracy_DecisionTree: %.3f' %accuracy)
-print('precision_DecisionTree: %.3f' %precision)
-print('recall_DecisionTree: %.3f' %recall)
-print('f1-score_DecisionTree : %.3f' %f1)
-
-# Random Forest
-random_forest = RandomForestClassifier(n_estimators=100)
-random_forest.fit(X_train, y_train)
-Y_prediction = random_forest.predict(X_test)
-accuracy_rf=round(accuracy_score(y_test,Y_prediction)* 100, 2)
-acc_random_forest = round(random_forest.score(X_train, y_train) * 100, 2)
-
-
-cm = confusion_matrix(y_test, Y_prediction)
-accuracy = accuracy_score(y_test,Y_prediction)
-precision =precision_score(y_test, Y_prediction,average='micro')
-recall =  recall_score(y_test, Y_prediction,average='micro')
-f1 = f1_score(y_test,Y_prediction,average='micro')
-print('Confusion matrix for Random Forest\n',cm)
-print('accuracy_random_Forest : %.3f' %accuracy)
-print('precision_random_Forest : %.3f' %precision)
-print('recall_random_Forest : %.3f' %recall)
-print('f1-score_random_Forest : %.3f' %f1)
-
-#SVM
-SVM = svm.SVC(kernel='linear') 
-SVM.fit(X_train, y_train)
-Y_prediction = SVM.predict(X_test)
-accuracy_SVM=round(accuracy_score(y_test,Y_pred)* 100, 2)
-acc_SVM = round(SVM.score(X_train, y_train) * 100, 2)
-
-cm = confusion_matrix(y_test, Y_pred)
-accuracy = accuracy_score(y_test,Y_pred)
-precision =precision_score(y_test, Y_pred,average='micro')
-recall =  recall_score(y_test, Y_pred,average='micro')
-f1 = f1_score(y_test,Y_pred,average='micro')
-print('Confusion matrix for SVM\n',cm)
-print('accuracy_SVM : %.3f' %accuracy)
-print('precision_SVM : %.3f' %precision)
-print('recall_SVM : %.3f' %recall)
-print('f1-score_SVM : %.3f' %f1)
-
-st.write('## 3. Akurasi Metode')
-
-results = pd.DataFrame({
-    'Model': ['Decision Tree','Random Forest','SVM'],
-    'Accuracy_score':[accuracy_dt,
-                      accuracy_rf,accuracy_SVM
-                     ]})
-result_df = results.sort_values(by='Accuracy_score', ascending=False)
-result_df = result_df.reset_index(drop=True)
-result_df.head(9)
-st.write(result_df)
-
-fig = plt.figure()
-ax = fig.add_axes([0,0,1,1])
-ax.bar(['Decision Tree', 'Random Forest','SVM'],[accuracy_dt, accuracy_rf, accuracy_SVM])
-plt.show()
-st.pyplot(fig)
-
-age = st.sidebar.number_input("umur =", min_value=40 ,max_value=90)
-anemia = st.sidebar.number_input("anemia =", min_value=0, max_value=1)
-creatinine_phosphokinase = st.sidebar.number_input("creatinine_phosphokinase =", min_value=0 , max_value=10000)
-diabetes = st.sidebar.number_input("diabetes =", min_value=0, max_value=1)
-ejection_fraction = st.sidebar.number_input("ejection_fraction =", min_value=0, max_value=100)
-high_blood_pressure = st.sidebar.number_input("high_blood_pressure =", min_value=0 ,max_value=1)
-platelets = st.sidebar.number_input("platelets =", min_value=100000, max_value=1000000)
-serum_creatinine = st.sidebar.number_input("serum_creatinine =", min_value=0, max_value=10)
-serum_sodium = st.sidebar.number_input("serum_sodium =", min_value=100, max_value=150)
-sex = st.sidebar.number_input("sex =", min_value=0, max_value=1)
-smoking = st.sidebar.number_input("smoking =", min_value=0, max_value=1)
-time = st.sidebar.number_input("time =", min_value=1, max_value=500)
-submit = st.sidebar.button("Submit")
-
-if submit :
-    if algoritma == 'Decision Tree' :
-        X_new = np.array([[age,anemia,creatinine_phosphokinase,diabetes,ejection_fraction,high_blood_pressure,platelets,serum_creatinine,serum_sodium,
-        sex,smoking,time]])
-        prediksi = decision_tree.predict(X_new)
-        if prediksi == 1 :
-            st.sidebar.write(""" # Hasil Prediksi :
-             rekiso meninggal tinggi""")
-        else : 
-            st.sidebar.write("""# Hasil Prediksi :
-             rekiso meninggal rendah""")
-    elif algoritma == 'Random Forest' :
-        X_new = np.array([[age,anemia,creatinine_phosphokinase,diabetes,ejection_fraction,high_blood_pressure,platelets,serum_creatinine,serum_sodium,
-        sex,smoking,time]])
-        prediksi = random_forest.predict(X_new)
-        if prediksi == 1 :
-            st.sidebar.write("""# Hasil Prediksi :
-            rekiso meninggal tinggi""")
-        else : 
-            st.sidebar.write("""# Hasil Prediksi :
-            rekiso meninggal rendah""")
-    else :
-        X_new = np.array([[age,anemia,creatinine_phosphokinase,diabetes,ejection_fraction,high_blood_pressure,platelets,serum_creatinine,serum_sodium,
-        sex,smoking,time]])
-        prediksi = SVM.predict(X_new)
-        if prediksi == 1 :
-            st.sidebar.write("""# Hasil Prediksi :
-            rekiso meninggal tinggi""")
-        else : 
-            st.sidebar.write("""# Hasil Prediksi :
-            rekiso meninggal rendah""")
+# def KNN(x_new):
+#       from sklearn.neighbors import KNeighborsClassifier
+#       knn = KNeighborsClassifier(n_neighbors=3)
+#       knn.fit(x_train,y_train)
+#       Y_pred = knn.predict(x_test) 
+#       accuracy_knn=round(accuracy_score(y_test,Y_pred)* 100, 2)
+#       acc_knn = round(knn.score(x_train, y_train) * 100, 2)
+#       accuracy_knn
+#       acc_knn
+#       y_predict = knn.predict(x_new)
+#       print(y_predict[0])
+#       return y_predict[0]
+# KNN(hinput)

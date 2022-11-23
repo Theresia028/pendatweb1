@@ -35,9 +35,9 @@ algoritma=st.sidebar.selectbox(
     'Pilih', ('Decision Tree','Random Forest','SVM')
 )
 
-st.write('## 2. About Dataset (Heart Failure)')
+st.write('## 2. About Dataset (Covid19-Liver )')
 data_hf = pd.read_csv("https://raw.githubusercontent.com/Theresia028/pendatweb1/main/covid-liver.csv")
-st.write("Dataset Covid1- Liver : (https://raw.githubusercontent.com/Theresia028/pendatweb1/main/covid-liver.csv) ", data_hf)
+st.write("Dataset Covid19-Liver : (https://raw.githubusercontent.com/Theresia028/pendatweb1/main/covid-liver.csv) ", data_hf)
 
 st.write('Dataset Description :')
 st.write('1. Cancer: (Y)')

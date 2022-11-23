@@ -27,8 +27,7 @@ st.title(' Aplikasi Web Data Mining')
 st.write("""
 ### Klasifikasi Covid-19 pada liver menggunakan Metode Decision tree, Random forest, dan SVM
 """)
-st.write('## 1. Introduction')
-
+st.sidebar.write("""
             ### Pilih Metode yang anda inginkan :"""
             )
 algoritma=st.sidebar.selectbox(

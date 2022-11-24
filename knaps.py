@@ -27,6 +27,7 @@ upload_data, preporcessing, modeling, implementation = st.tabs(["Upload Data", "
 with upload_data:
     st.write("""# Upload File""")
     st.write("Dataset yang digunakan adalah data riwayat orang yang terkena Covid-19 yang berpengaruh pada Liver")
+    st.write("Kumpulan data untuk prngklasifikasian liver pada orang yang telah terkena Covid-19")
     uploaded_files = st.file_uploader("Upload file CSV", accept_multiple_files=True)
     for uploaded_file in uploaded_files:
         df = pd.read_csv(uploaded_file)

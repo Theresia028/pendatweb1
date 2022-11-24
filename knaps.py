@@ -92,16 +92,12 @@ with preporcessing:
     residence = pd.get_dummies(data_gender)
     residence
 
-    "### Normalize data smoke"
-    data_smoke=df[['smoking_status']]
-    smoke = pd.get_dummies(data_smoke)
-    smoke
 
-    dataOlah = pd.concat([gen,married,work,residence,smoke], axis=1)
+    dataOlah = pd.concat([Cancer,Year,Month,Age,Gender], axis=1)
     dataHasil = pd.concat([df,dataOlah], axis = 1)
 
-    X = dataHasil.drop(columns=["gender","ever_married","work_type","Residence_type","smoking_status","stroke"])
-    y = dataHasil.stroke
+    X = dataHasil.drop(columns=["Etiology", "Cirrhosis", "Size", "HCC_TNM_Stage", "HCC_BCLC_Stage"])
+    y = dataHasil.liver
     "### Normalize data hasil"
     X
 
@@ -115,7 +111,7 @@ with preporcessing:
 
     le.inverse_transform(y)
 
-    labels = pd.get_dummies(dataHasil.stroke).columns.values.tolist()
+    labels = pd.get_dummies(dataHasil.liver).columns.values.tolist()
     
     "### Label"
     labels
@@ -295,19 +291,19 @@ with implementation:
         gen_Male = 0
         gen_Other = 1
 
-    # HYPERTENSION
-    hypertension = st.radio("Hypertency",('No', 'Yes'))
-    if hypertension == "Yes":
+    # Cirrhosis
+    hypertension = st.liver("Cirrhosis",('Y', 'N'))
+    if hypertension == "Y":
         hypertension = 1
-    elif hypertension == "No":
+    elif hypertension == "N":
         hypertension = 0
     
-    # HEART
-    heart_disease = st.radio("heart_disease",('No', 'Yes'))
-    if heart_disease == "Yes":
+    # Surveillance_programme
+    heart_disease = st.liver("Surveillance_programme",('Y', 'N'))
+    if heart_disease == "Y":
         heart_disease = 1
         # heart_disease_N = 0
-    elif heart_disease == "No":
+    elif heart_disease == "N":
         heart_disease = 0
         # heart_disease_N = 1
 

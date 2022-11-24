@@ -24,11 +24,9 @@ from sklearn.utils.validation import joblib
 st.title("PENAMBANGAN DATA")
 upload_data, preporcessing, modeling, implementation = st.tabs(["Upload Data", "Prepocessing", "Modeling", "Implementation"])
 
-
 with upload_data:
     st.write("""# Upload File""")
-    st.write("Dataset yang digunakan adalah healthcare-dataset-stroke-data dataset yang diambil dari https://www.kaggle.com/datasets/fedesoriano/stroke-prediction-dataset")
-    st.write("Total datanya adalah 5110 dengan data training 80% (4088) dan data testing 20% (1022)")
+    st.write("Dataset yang digunakan adalah data riwayat orang yang terkena Covid-19 yang berpengaruh pada Liver")
     uploaded_files = st.file_uploader("Upload file CSV", accept_multiple_files=True)
     for uploaded_file in uploaded_files:
         df = pd.read_csv(uploaded_file)
@@ -38,13 +36,13 @@ with upload_data:
 
 with preporcessing:
     st.write("""# Preprocessing""")
-    df[["gender", "age", "hypertension", "heart_disease", "ever_married", "work_type", "Residence_type", "avg_glucose_level", "smoking_status"]].agg(['min','max'])
+    df[["Cancer", "Year", "Month", "Bleed", "Mode_Presentation", "Age", "Gender", "Etiology", "Cirrhosis", "Size", "HCC_TNM_Stage", "HCC_BCLC_Stage", "ICC_TNM_Stage", "Treatment_grps", "Survival_fromMDM", "Alive_Dead", "Type_of_incidental_finding", "Surveillance_programme", "Surveillance_effectiveness", "Mode_of_surveillance_detection", "Time_diagnosis_1st_Tx", "PS", "Time_MDM_1st_treatment", "Time_decisiontotreat_1st_treatment", "Prev_known_cirrhosis", "Months_from_last_surveillance"]].agg(['min','max'])
 
-    df.stroke.value_counts()
+    df.liver.value_counts()
     df = df.drop(columns=["id","bmi"])
 
-    X = df.drop(columns="stroke")
-    y = df.stroke
+    X = df.drop(columns="liver")
+    y = df.liver
     "### Membuang fitur yang tidak diperlukan"
     df
 
@@ -66,32 +64,32 @@ with preporcessing:
 
     "### Normalize data"
 
-    dataubah=df.drop(columns=['gender','ever_married','work_type','Residence_type','smoking_status'])
+    dataubah=df.drop(columns=['Cancer','Year','Month','Age','Gender'])
     dataubah
 
-    "### Normalize data gender"
-    data_gen=df[['gender']]
-    gen = pd.get_dummies(data_gen)
+    "### Normalize data Cancer"
+    data_gen=df[['Cancer']]
+    gen = pd.get_dummies(data_can)
     gen
 
-    # "### Normalize data Hypertension"
-    # data_hypertension=df[['hypertension']]
-    # hypertension = pd.get_dummies(data_hypertension)
+    # "### Normalize data Year"
+    # data_hypertension=df[['Year']]
+    # hypertension = pd.get_dummies(data_year)
     # hypertension
 
-    "### Normalize data married"
-    data_married=df[['ever_married']]
-    married = pd.get_dummies(data_married)
+    "### Normalize data Month"
+    data_married=df[['Month']]
+    married = pd.get_dummies(data_month)
     married
 
-    "### Normalize data work"
-    data_work=df[['work_type']]
-    work = pd.get_dummies(data_work)
+    "### Normalize data Age"
+    data_work=df[['Age']]
+    work = pd.get_dummies(data_age)
     work
 
-    "### Normalize data residence"
-    data_residence=df[['Residence_type']]
-    residence = pd.get_dummies(data_residence)
+    "### Normalize data Gender"
+    data_residence=df[['Gender']]
+    residence = pd.get_dummies(data_gender)
     residence
 
     "### Normalize data smoke"

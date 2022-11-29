@@ -31,7 +31,6 @@ upload_data, preporcessing, modeling, implementation = st.tabs(["Upload Data", "
 with upload_data:
     st.write("""# Upload Dataset""")
     st.write("Dataset yang digunakan saya adalah dataset history pasien pengidap diabetes. Kumpulan data ini terbuat dari tahun 2019. Dataset ini didapat dari https://www.kaggle.com/datasets/tigganeha4/diabetes-dataset-2019 yang memiliki kurang lebih 953 baris data ")
-    st.write("Total datanya adalah 5110 dengan data training 80% (4088) dan data testing 20% (1022)")
     uploaded_files = st.file_uploader("Upload file CSV Dataset ", accept_multiple_files=True)
     for uploaded_file in uploaded_files:
         df = pd.read_csv(uploaded_file)

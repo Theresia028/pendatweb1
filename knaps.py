@@ -45,7 +45,7 @@ with preporcessing:
     df.diabet.value_counts()
     df = df.drop(columns=["id","PhysicallyActive","BMI","JunkFood"])
 
-    X = df.drop(columns="diabate")
+    X = df.drop(columns="Pdiabetes")
     y = df.diabate
     "### Membuang fitur yang tidak diperlukan"
     df

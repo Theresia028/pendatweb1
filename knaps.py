@@ -219,10 +219,15 @@ with modeling:
 with implementation:
     with st.form("my_form"):
         st.subheader("Implementasi")
-        Weight = st.number_input('Masukkan berat ikan (Weight) : ')
-        Length1 = st.number_input('Masukkan panjang vertikal ikan (Length1) : ')
-        Height = st.number_input('Masukkan tinggi ikan (Height) : ')
-        Width = st.number_input('Masukkan lebar ikan (Width) : ')
+        key = st.number_input('Masukkan kunci lagunya (key) : ')
+        mode = st.number_input('Masukkan tingkat mode lagu (mode) : ')
+        acousticness = st.number_input('Masukkan tingkat akustik lagu (acousticness) : ')
+        instrumentalness = st.number_input('Masukkan angka instrumen (instrumentalness) : ')
+        tempo = st.number_input('Masukkan jumlah tempo lagu (tempo) : ')
+        duration_ms = st.number_input('Masukkan jumlah durasi (duration_ms) : ')
+        time_signature = st.number_input('Masukkan jumlah waktu notasi lagu  (time_signature) : ')
+        
+       
         
         model = st.selectbox('Pilihlah model yang akan anda gunakan untuk melakukan prediksi?',
                 ('Gaussian Naive Bayes', 'K-NN', 'Decision Tree'))
@@ -230,10 +235,13 @@ with implementation:
         prediksi = st.form_submit_button("Submit")
         if prediksi:
             inputs = np.array([
-                Weight,
-                Length1,
-                Height,
-                Width
+                key,
+                mode,
+                acousticness,
+                instrumentalness,
+                tempo,
+                duration_ms,
+                time_signature
             ])
 
             df_min = X.min()

@@ -50,6 +50,7 @@ with upload_data:
     #     df = pd.read_csv(uploaded_file)
     #     st.write("Nama File Anda = ", uploaded_file.name)
     #     st.dataframe(df)
+    st.write ("DATASET ASLI")
     df = pd.read_csv('https://raw.githubusercontent.com/Theresia028/pendatweb1/main/data.csv')
     st.dataframe(df)
 

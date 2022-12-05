@@ -25,7 +25,7 @@ with data_set_description:
     st.write("""# Data Set Description """)
     
     st.write("Dataset yang digunakan saya adalah dataset tentang rekomendasi API Spotify. Sehingga nanti akan mendapat data informasi seperti dancebility tentang lagu favourit, dan lainnya. ")
-    st.write("Data set yang saya gunakan ada 14 kolom dan terdiri dari 193 baris data. ###### Sumber Data Set dari Kaggle : https://www.kaggle.com/datasets/bricevergnou/spotify-recommendation . ")
+    st.write("Data set yang saya gunakan ada 14 kolom dan terdiri dari 193 baris data. Sumber Data Set dari Kaggle : https://www.kaggle.com/datasets/bricevergnou/spotify-recommendation . ")
     st.write("Fitur - Fitur yang ada di dalam dataset ini adalah : ")
     st.write("1. Danceability : menjelaskan seberapa cocok sebuah lagu untuk menari berdasarkan kombinasi elemen musik termasuk tempo, ")
     st.write("2. Energy : adalah ukuran dari 0,0 hingga 1,0 dan mewakili ukuran perseptual intensitas dan aktivitas. Biasanya, trek energik ")

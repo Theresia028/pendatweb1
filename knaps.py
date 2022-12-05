@@ -15,9 +15,9 @@ from sklearn.tree import DecisionTreeClassifier
 
 
 st.title("PENAMBANGAN DATA C")
- st.write("##### Nama  : Theresia Nazela ")
- st.write("##### Nim   : 200411100028 ")
- st.write("##### Kelas : Penambangan Data C ")
+st.write("##### Nama  : Theresia Nazela ")
+st.write("##### Nim   : 200411100028 ")
+st.write("##### Kelas : Penambangan Data C ")
 
 data_set_description, upload_data, preprocessing, modeling, implementation = st.tabs(["DESKRIPSI DATASET", "DATASET", "PREPROCESSING", "MODELING", "IMPLEMENTATION"])
 
@@ -50,7 +50,7 @@ with upload_data:
     #     df = pd.read_csv(uploaded_file)
     #     st.write("Nama File Anda = ", uploaded_file.name)
     #     st.dataframe(df)
-    st.write ("###DATASET ASLI")
+    st.write ("### DATASET ASLI")
     df = pd.read_csv('https://raw.githubusercontent.com/Theresia028/pendatweb1/main/data.csv')
     st.dataframe(df)
 

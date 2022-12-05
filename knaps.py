@@ -1,55 +1,81 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
-from sklearn import preprocessing
-from sklearn.preprocessing import MinMaxScaler
-from sklearn.model_selection import train_test_split
-from sklearn.neighbors import KNeighborsClassifier
-from numpy import array
-from sklearn import tree
-from sklearn.naive_bayes import GaussianNB
-from sklearn.preprocessing import StandardScaler
-from sklearn.metrics import confusion_matrix, accuracy_score, recall_score, precision_score, f1_score
-from sklearn.tree import DecisionTreeClassifier
-from collections import OrderedDict
-from sklearn.neighbors import KNeighborsClassifier
-from sklearn.ensemble import BaggingClassifier
-from sklearn.datasets import make_classification
-from sklearn.svm import SVC
+from PIL import Image
 import altair as alt
-from sklearn.utils.validation import joblib
+from sklearn.preprocessing import MinMaxScaler
+from sklearn import preprocessing
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score
+from sklearn.naive_bayes import GaussianNB
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.tree import DecisionTreeClassifier
+# import warnings
+# warnings.filterwarnings("ignore")
 
 
+st.title("PENAMBANGAN DATA C")
 
-st.title("PENAMBANGAN DATA")
-st.write("Nama : Theresia Nazela")
-st.write("Nim : 200411100188")
-st.write("Kelas: Penambangan Data C")
-upload_data, preporcessing, modeling, implementation = st.tabs(["DataSet", "Prepocessing", "Modeling", "Implementation"])
+data_set_description, upload_data, preprocessing, modeling, implementation = st.tabs(["Data Set Description", "Data", "Preprocessing", "Modeling", "Implementation"])
 
+with data_set_description:
+    st.write("##### Nama  : Theresia Nazela ")
+    st.write("##### Nim   : 200411100028 ")
+    st.write("##### Kelas : Penambangan Data C ")
+    st.write("""# Data Set Description """)
+    st.write("Dataset yang digunakan saya adalah dataset tentang rekomendasi API Spotify. Sehingga nanti akan mendapat data informasi seperti dancebility tentang lagu favourit, dan lainnya. ")
+    st.write("Data set yang saya gunakan ada 14 kolom dan terdiri dari 193 baris data ")
+    st.write("###### Sumber Data Set dari Kaggle : https://www.kaggle.com/datasets/bricevergnou/spotify-recommendation . ")
+    st.write("Fitur - Fitur yang ada di dalam dataset ini adalah : ")
+    
+    st.write("Dataset yang digunakan saya adalah dataset tentang rekomendasi API Spotify. Sehingga nanti akan mendapat data informasi seperti dancebility tentang lagu favourit, dan lainnya. Data set ini di dapatkan dari https://www.kaggle.com/datasets/bricevergnou/spotify-recommendation .  ")
+    st.write("Data set yang saya gunakan ada 14 kolom dan terdiri dari 193 baris data ")
+    st.write("Fitur - Fitur yang ada di dalam dataset ini adalah : ")
+    st.write("1. Danceability : menjelaskan seberapa cocok sebuah lagu untuk menari berdasarkan kombinasi elemen musik termasuk tempo, ")
+    st.write("2. Energy : adalah ukuran dari 0,0 hingga 1,0 dan mewakili ukuran perseptual intensitas dan aktivitas. Biasanya, trek energik ")
+    st.write("3. Key : berada. Integer memetakan ke nada menggunakan notasi Kelas Nada standar . Misalnya. 0 = C, 1 = C♯/D♭, 2 = D, dan seterusnya")
+    st.write("4. Loudness : Nilai kenyaringan dirata-ratakan di seluruh trek dan berguna ")
+    st.write("5. Mode : Mode menunjukkan modalitas (mayor atau minor) dari sebuah trek, jenis tangga nada dari mana konten melodinya berasal")
+    st.write("6. Speechiness : mendeteksi keberadaan kata-kata yang diucapkan di trek. ")
+    st.write("7. Acousticness : Ukuran kepercayaan dari 0,0 hingga 1,0 apakah lagu tersebut akustik. 1.0 mewakili keyakinan tinggi trek tersebut ")
+    st.write("8. Instrumentalness : Memprediksi apakah trek tidak berisi vokal.")
+    st.write("9. Liveness : Mendeteksi kehadiran penonton dalam rekaman")
+    st.write("10. Valence : A measure from 0.0 to 1.0 describes the musical positiveness conveyed by a track.")
+    st.write("11. Tempo : tingkat tempo yang dihasilkan dari lagu ")
+    st.write("12. Duration_ms :  durasi dari lagu ")
+    st.write("13. Time_Signiture : Konvensi notasi yang digunakan dalam notasi musik ")
+    st.write("14. Liked : penggemar dalam musik tersebut")
+    
+    st.write("###### Source Code Aplikasi ada di Github anda bisa acces di link : https://github.com/Theresia028/pendatweb1")
 
 with upload_data:
-    st.write("""# Upload Dataset""")
-    st.write("Dataset yang digunakan saya adalah dataset history pasien pengidap diabetes. Kumpulan data ini terbuat dari tahun 2019. Dataset ini didapat dari https://www.kaggle.com/datasets/tigganeha4/diabetes-dataset-2019 yang memiliki kurang lebih 953 baris data ")
-    uploaded_files = st.file_uploader("Upload file CSV Dataset ", accept_multiple_files=True)
-    for uploaded_file in uploaded_files:
-        df = pd.read_csv(uploaded_file)
-        st.write("Nama File Dataset Anda = ", uploaded_file.name)
-        st.dataframe(df)
+    # uploaded_files = st.file_uploader("Upload file CSV", accept_multiple_files=True)
+    # for uploaded_file in uploaded_files:
+    #     df = pd.read_csv(uploaded_file)
+    #     st.write("Nama File Anda = ", uploaded_file.name)
+    #     st.dataframe(df)
+    df = pd.read_csv('https://raw.githubusercontent.com/Theresia028/pendatweb1/main/data.csv')
+    st.dataframe(df)
 
-
-with preporcessing:
-    st.write("""# Preprocessing""")
-    st.write("Data preprocessing merupakan proses perubahan data asli ke dalam bentuk data yang lebih mudah dipahami")
-    st.write("Data preprocessing dilakukan untuk mempermudah proses analisis data.")
-    st.title("""Dataset Diabetes""") 
-    df = pd.read_csv('https://raw.githubusercontent.com/Theresia028/pendatweb1/main/diabetes_dataset__2019.csv')
-    df.head()
-
-
-    #Membuat variable x dimana variable label di hilangkan
-    X = df.drop(columns=['Result'])
-
+with preprocessing:
+    st.subheader("""Normalisasi Data""")
+    st.write("""Rumus Normalisasi Data :""")
+    st.image('https://i.stack.imgur.com/EuitP.png', use_column_width=False, width=250)
+    st.markdown("""
+    Dimana :
+    - X = data yang akan dinormalisasi atau data asli
+    - min = nilai minimum semua data asli
+    - max = nilai maksimum semua data asli
+    """)
+    df = df.drop(columns=['danceability','energy','loudness','speechiness','liveness','valence'])
+    #Mendefinisikan Varible X dan Y
+    X = df[['key','mode','acousticness','instrumentalness','tempo','duration_ms','time_signature']]
+    y = df['liked'].values
+    df
+    X
+    df_min = X.min()
+    df_max = X.max()
+    
     #NORMALISASI NILAI X
     scaler = MinMaxScaler()
     #scaler.fit(features)
@@ -62,345 +88,171 @@ with preporcessing:
     st.subheader('Hasil Normalisasi Data')
     st.write(scaled_features)
 
-    #Save model normalisasi
-    import joblib
-    norm = "normalisasi.sav"
-    joblib.dump(scaler, norm) 
+    st.subheader('Target Label')
+    dumies = pd.get_dummies(df.Species).columns.values.tolist()
+    dumies = np.array(dumies)
 
-    #ENCODER NILAI Y
-    y = df['Result'].values
-    le = preprocessing.LabelEncoder()
-    le.fit(y)
-    yBaru = le.transform(y)
+    labels = pd.DataFrame({
+        '1' : [dumies[0]],
+        '2' : [dumies[1]],
 
-    #SPLIT DATASET
-    training, test = train_test_split(X,test_size=0.2, random_state=1)
-    training_label, test_label = train_test_split(yBaru, test_size=0.2, random_state=1)
+        
+    })
+
+    st.write(labels)
+
+    # st.subheader("""Normalisasi Data""")
+    # st.write("""Rumus Normalisasi Data :""")
+    # st.image('https://i.stack.imgur.com/EuitP.png', use_column_width=False, width=250)
+    # st.markdown("""
+    # Dimana :
+    # - X = data yang akan dinormalisasi atau data asli
+    # - min = nilai minimum semua data asli
+    # - max = nilai maksimum semua data asli
+    # """)
+    # df.weather.value_counts()
+    # df = df.drop(columns=["date"])
+    # #Mendefinisikan Varible X dan Y
+    # X = df.drop(columns=['weather'])
+    # y = df['weather'].values
+    # df_min = X.min()
+    # df_max = X.max()
+
+    # #NORMALISASI NILAI X
+    # scaler = MinMaxScaler()
+    # #scaler.fit(features)
+    # #scaler.transform(features)
+    # scaled = scaler.fit_transform(X)
+    # features_names = X.columns.copy()
+    # #features_names.remove('label')
+    # scaled_features = pd.DataFrame(scaled, columns=features_names)
+
+    # #Save model normalisasi
+    # from sklearn.utils.validation import joblib
+    # norm = "normalisasi.save"
+    # joblib.dump(scaled_features, norm) 
+
+
+    # st.subheader('Hasil Normalisasi Data')
+    # st.write(scaled_features)
 
 with modeling:
-    st.title("""Metode dalam Klasifikasi Data Mining""") #menampilkan judul halaman 
+    training, test = train_test_split(scaled_features,test_size=0.2, random_state=1)#Nilai X training dan Nilai X testing
+    training_label, test_label = train_test_split(y, test_size=0.2, random_state=1)#Nilai Y training dan Nilai Y testing
+    with st.form("modeling"):
+        st.subheader('Modeling')
+        st.write("Pilihlah model yang akan dilakukan pengecekkan akurasi:")
+        naive = st.checkbox('Gaussian Naive Bayes')
+        k_nn = st.checkbox('K-Nearest Neighboor')
+        destree = st.checkbox('Decission Tree')
+        submitted = st.form_submit_button("Submit")
 
-    #membuat sub menu menggunakan checkbox
-    nb = st.checkbox("Naive bayes") #chechbox naive bayes
-    knn = st.checkbox("KNN")
-    ds = st.checkbox("Decission Tree")
+        # NB
+        GaussianNB(priors=None)
 
-    if nb:
-        anm = pd.read_csv('https://raw.githubusercontent.com/Theresia028/pendatweb1/main/diabetes_dataset__2019.csv')
-        st.write(anm)
-
-        from sklearn.metrics import make_scorer, accuracy_score,precision_score
-        from sklearn.metrics import accuracy_score ,precision_score,recall_score,f1_score
-        from sklearn.metrics import confusion_matrix
-
-        from sklearn.model_selection import KFold,train_test_split,cross_val_score
-        from sklearn.naive_bayes import GaussianNB
-        from sklearn.model_selection import train_test_split
-
-        X=anm.iloc[:,0:4].values
-        y=anm.iloc[:,4].values
-
-        st.write("Jumlah Shape X dan Y adalah", X.shape)
-
-        from sklearn.preprocessing import LabelEncoder
-        le = LabelEncoder()
-        y = le.fit_transform(y)
-        st.write("Array ", y)
-
-        #Train and Test split
-        X_train,X_test,y_train,y_test=train_test_split(X,y,test_size=0.3,random_state=0)
-
+        # Fitting Naive Bayes Classification to the Training set with linear kernel
         gaussian = GaussianNB()
-        gaussian.fit(X_train, y_train)
-        Y_pred = gaussian.predict(X_test) 
-        accuracy_nb=round(accuracy_score(y_test,Y_pred)* 100, 2)
-        acc_gaussian = round(gaussian.score(X_train, y_train) * 100, 2)
+        gaussian = gaussian.fit(training, training_label)
 
-        cm = confusion_matrix(y_test, Y_pred)
-        accuracy = accuracy_score(y_test,Y_pred)
-        precision =precision_score(y_test, Y_pred,average='micro')
-        recall =  recall_score(y_test, Y_pred,average='micro')
-        f1 = f1_score(y_test,Y_pred,average='micro')
-        st.write('Confusion matrix for Diabetes',cm)
-        st.write('accuracy_Diabetes : %.3f' %accuracy)
-        st.write('precision_Diabetes : %.3f' %precision)
-        st.write('recall_Diabetes : %.3f' %recall)
-        st.write('f1-score_Diabetes : %.3f' %f1)
+        # Predicting the Test set results
+        y_pred = gaussian.predict(test)
+    
+        y_compare = np.vstack((test_label,y_pred)).T
+        gaussian.predict_proba(test)
+        gaussian_akurasi = round(100 * accuracy_score(test_label, y_pred))
+        # akurasi = 10
 
-    if knn:
-        ami = pd.read_csv('https://raw.githubusercontent.com/Theresia028/pendatweb1/main/diabetes_dataset__2019.csv')
-        st.write(ami)
+        #Gaussian Naive Bayes
+        # gaussian = GaussianNB()
+        # gaussian = gaussian.fit(training, training_label)
 
-        ('%matplotlib inline')
-        import pandas as pd
-        import matplotlib.pyplot as plt
-        import seaborn as sns
-        from matplotlib.colors import ListedColormap
-        from sklearn import neighbors, datasets
-        from sklearn.inspection import *
-        from sklearn.model_selection import train_test_split
-        from sklearn.neighbors import KNeighborsClassifier
+        # probas = gaussian.predict_proba(test)
+        # probas = probas[:,1]
+        # probas = probas.round()
 
-        n_neighbors = 3
+        # gaussian_akurasi = round(100 * accuracy_score(test_label,probas))
 
-        # we only take the first two features. We could avoid this ugly
-        # slicing by using a two-dim dataset
-        X = ami.data[:, :2]
-        y = ami.target
+        #KNN
+        K=10
+        knn=KNeighborsClassifier(n_neighbors=K)
+        knn.fit(training,training_label)
+        knn_predict=knn.predict(test)
 
-        #split dataset into train and test data
-        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=1, stratify=y)
+        knn_akurasi = round(100 * accuracy_score(test_label,knn_predict))
 
-        # Create color maps
-        cmap_light = ListedColormap(["orange", "cyan", "cornflowerblue"])
-        cmap_bold = ["darkorange", "c", "darkblue"]
+        #Decission Tree
+        dt = DecisionTreeClassifier()
+        dt.fit(training, training_label)
+        # prediction
+        dt_pred = dt.predict(test)
+        #Accuracy
+        dt_akurasi = round(100 * accuracy_score(test_label,dt_pred))
 
-        for weights in ["uniform", "distance"]:
-            # we create an instance of Neighbours Classifier and fit the data.
-            clf = neighbors.KNeighborsClassifier(n_neighbors, weights=weights)
-            clf.fit(X_train,y_train)
+        if submitted :
+            if naive :
+                st.write('Model Naive Bayes accuracy score: {0:0.2f}'. format(gaussian_akurasi))
+            if k_nn :
+                st.write("Model KNN accuracy score : {0:0.2f}" . format(knn_akurasi))
+            if destree :
+                st.write("Model Decision Tree accuracy score : {0:0.2f}" . format(dt_akurasi))
+        
+        grafik = st.form_submit_button("Grafik akurasi semua model")
+        if grafik:
+            data = pd.DataFrame({
+                'Akurasi' : [gaussian_akurasi, knn_akurasi, dt_akurasi],
+                'Model' : ['Gaussian Naive Bayes', 'K-NN', 'Decission Tree'],
+            })
 
-            ax = plt.subplots()
-            # DecisionBoundaryDisplay.from_estimator(
-            #     clf,
-            #     X,
-            #     cmap=cmap_light,
-            #     ax=ax,
-            #     response_method="predict",
-            #     plot_method="pcolormesh",
-            #     xlabel=iris.feature_names[0],
-            #     ylabel=iris.feature_names[1],
-            #     shading="auto",
-            # )
-
-            # Plot also the training points
-            sns.scatterplot(
-                x=X[:, 0],
-                y=X[:, 1],
-                hue=ami.target_names[y],
-                palette=cmap_bold,
-                alpha=1.0,
-                edgecolor="black",
+            chart = (
+                alt.Chart(data)
+                .mark_bar()
+                .encode(
+                    alt.X("Akurasi"),
+                    alt.Y("Model"),
+                    alt.Color("Akurasi"),
+                    alt.Tooltip(["Akurasi", "Model"]),
+                )
+                .interactive()
             )
-            plt.title(
-                "3-Class classification (k = %i, weights = '%s')" % (n_neighbors, weights)
-            )
+            st.altair_chart(chart,use_container_width=True)
+  
+with implementation:
+    with st.form("my_form"):
+        st.subheader("Implementasi")
+        Weight = st.number_input('Masukkan berat ikan (Weight) : ')
+        Length1 = st.number_input('Masukkan panjang vertikal ikan (Length1) : ')
+        Height = st.number_input('Masukkan tinggi ikan (Height) : ')
+        Width = st.number_input('Masukkan lebar ikan (Width) : ')
+        
+        model = st.selectbox('Pilihlah model yang akan anda gunakan untuk melakukan prediksi?',
+                ('Gaussian Naive Bayes', 'K-NN', 'Decision Tree'))
 
-        plt.show()
+        prediksi = st.form_submit_button("Submit")
+        if prediksi:
+            inputs = np.array([
+                Weight,
+                Length1,
+                Height,
+                Width
+            ])
 
-    if ds:
-        import pandas as pd
-        import numpy as np
-        from sklearn.metrics import accuracy_score
-        from sklearn import tree
-        from matplotlib import pyplot as plt
-        from sklearn.datasets import load_iris
-        from sklearn.tree import DecisionTreeClassifier
-        ane = pd.read_csv('https://raw.githubusercontent.com/Theresia028/pendatweb1/main/diabetes_dataset__2019.csv')
-        ane
+            df_min = X.min()
+            df_max = X.max()
+            input_norm = ((inputs - df_min) / (df_max - df_min))
+            input_norm = np.array(input_norm).reshape(1, -1)
 
-        #Input User
-        st.sidebar.header('Parameter Inputan')
-        def input_user():
-            Gender = st.sidebar.slider('Jenis Kelamin', 0, 1),
-            Hemoglobin = st.sidebar.slider('Hemoglobin', 2.00, 18.00)
-            MCH = st.sidebar.slider('MCH (Mean Cell Hemoglobin)', 14.00, 34.80)
-            MCHC = st.sidebar.slider('MCHC (Mean corpuscular hemoglobin concentration)', 28.00, 34.10)
-            MCV = st.sidebar.slider('MCV (Mean Cell Volume)', 70.00, 104.70)
-            data = {
-                'Gender' : Gender,
-                'Hemoglobin': Hemoglobin,
-                'MCH': MCH,
-                'MCHC': MCHC,
-                'MCV':MCV
-            }
-            fitur = pd.DataFrame(data, index = [0])
+            if model == 'Gaussian Naive Bayes':
+                mod = gaussian
+            if model == 'K-NN':
+                mod = knn 
+            if model == 'Decision Tree':
+                mod = dt
 
-            return fitur
-        input = input_user()
-        st.subheader('Parameter Inputan')
-        st.write(input)
-
-        #from sklearn import preprocessing
-        #normalisasi= preprocessing.normalize(input)
-        #normalisasi
-        #from sklearn.preprocessing import StandardScaler
-        #scaler_inp = StandardScaler()
-        #scaled_inp = scaler_inp.fit_transform(input)
-        #features_names_inp = input.columns.copy()
-        #scaled_features = pd.DataFrame(scaled, columns=features_names_inp)
-        #test_d = scaled.fit_transform(input)
-        #pd.DataFrame(test_d)
+               
+            input_pred = mod.predict(input_norm)
 
 
+            st.subheader('Hasil Prediksi')
+            st.write('Menggunakan Pemodelan :', model)
 
-    # #with st.sidebar:
-    #     option = st.sidebar.selectbox(
-    #         'Main Submenu',
-    #         ('Naive Bayes','KNN','Decission Tree','K-Means')
-    #     )
-    #     st.write(f"## Metode {option}")
-
-    #     if option == 'Naive Bayes' or option == '':
-    #         anm = pd.read_csv('https://raw.githubusercontent.com/dewialqurani/datamining/main/anemia.csv')
-    #         anm
-
-    #         from sklearn.metrics import make_scorer, accuracy_score,precision_score
-    #         from sklearn.metrics import accuracy_score ,precision_score,recall_score,f1_score
-    #         from sklearn.metrics import confusion_matrix
-
-    #         from sklearn.model_selection import KFold,train_test_split,cross_val_score
-    #         from sklearn.naive_bayes import GaussianNB
-    #         from sklearn.model_selection import train_test_split
-
-    #         X=anm.iloc[:,0:4].values
-    #         y=anm.iloc[:,4].values
-
-    #         st.write("Jumlah Shape X dan Y adalah", X.shape)
-
-    #         from sklearn.preprocessing import LabelEncoder
-    #         le = LabelEncoder()
-    #         y = le.fit_transform(y)
-    #         st.write("Array ", y)
-
-    #         #Train and Test split
-    #         X_train,X_test,y_train,y_test=train_test_split(X,y,test_size=0.3,random_state=0)
-
-    #         gaussian = GaussianNB()
-    #         gaussian.fit(X_train, y_train)
-    #         Y_pred = gaussian.predict(X_test) 
-    #         accuracy_nb=round(accuracy_score(y_test,Y_pred)* 100, 2)
-    #         acc_gaussian = round(gaussian.score(X_train, y_train) * 100, 2)
-
-    #         cm = confusion_matrix(y_test, Y_pred)
-    #         accuracy = accuracy_score(y_test,Y_pred)
-    #         precision =precision_score(y_test, Y_pred,average='micro')
-    #         recall =  recall_score(y_test, Y_pred,average='micro')
-    #         f1 = f1_score(y_test,Y_pred,average='micro')
-    #         st.write('Confusion matrix for Anemia',cm)
-    #         st.write('accuracy_Anemia : %.3f' %accuracy)
-    #         st.write('precision_Anemia : %.3f' %precision)
-    #         st.write('recall_Anemia : %.3f' %recall)
-    #         st.write('f1-score_Anemia : %.3f' %f1)
-
-            
-
-    #     elif option == 'KNN':
-    #         ami = pd.read_csv('https://raw.githubusercontent.com/dewialqurani/datamining/main/anemia.csv')
-    #         ami
-
-    #         ('%matplotlib inline')
-    #         import pandas as pd
-    #         import matplotlib.pyplot as plt
-    #         import seaborn as sns
-    #         from matplotlib.colors import ListedColormap
-    #         from sklearn import neighbors, datasets
-    #         from sklearn.inspection import *
-    #         from sklearn.model_selection import train_test_split
-    #         from sklearn.neighbors import KNeighborsClassifier
-
-    #         n_neighbors = 3
-
-    #         # we only take the first two features. We could avoid this ugly
-    #         # slicing by using a two-dim dataset
-    #         X = ami.data[:, :2]
-    #         y = ami.target
-
-    #         #split dataset into train and test data
-    #         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=1, stratify=y)
-
-    #         # Create color maps
-    #         cmap_light = ListedColormap(["orange", "cyan", "cornflowerblue"])
-    #         cmap_bold = ["darkorange", "c", "darkblue"]
-
-    #         for weights in ["uniform", "distance"]:
-    #             # we create an instance of Neighbours Classifier and fit the data.
-    #             clf = neighbors.KNeighborsClassifier(n_neighbors, weights=weights)
-    #             clf.fit(X_train,y_train)
-
-    #             ax = plt.subplots()
-    #             # DecisionBoundaryDisplay.from_estimator(
-    #             #     clf,
-    #             #     X,
-    #             #     cmap=cmap_light,
-    #             #     ax=ax,
-    #             #     response_method="predict",
-    #             #     plot_method="pcolormesh",
-    #             #     xlabel=iris.feature_names[0],
-    #             #     ylabel=iris.feature_names[1],
-    #             #     shading="auto",
-    #             # )
-
-    #             # Plot also the training points
-    #             sns.scatterplot(
-    #                 x=X[:, 0],
-    #                 y=X[:, 1],
-    #                 hue=ami.target_names[y],
-    #                 palette=cmap_bold,
-    #                 alpha=1.0,
-    #                 edgecolor="black",
-    #             )
-    #             plt.title(
-    #                 "3-Class classification (k = %i, weights = '%s')" % (n_neighbors, weights)
-    #             )
-
-    #         plt.show()
-
-    #     elif option == 'Decission Tree':
-    #         import pandas as pd
-    #         import numpy as np
-    #         from sklearn.metrics import accuracy_score
-    #         from sklearn import tree
-    #         from matplotlib import pyplot as plt
-    #         from sklearn.datasets import load_iris
-    #         from sklearn.tree import DecisionTreeClassifier
-    #         ane = pd.read_csv('https://raw.githubusercontent.com/dewialqurani/datamining/main/anemia.csv')
-    #         ane
-
-    #         #Input User
-    #         st.sidebar.header('Parameter Inputan')
-    #         def input_user():
-    #             Gender = st.sidebar.slider('Jenis Kelamin', 0, 1),
-    #             Hemoglobin = st.sidebar.slider('Hemoglobin', 2.00, 18.00)
-    #             MCH = st.sidebar.slider('MCH (Mean Cell Hemoglobin)', 14.00, 34.80)
-    #             MCHC = st.sidebar.slider('MCHC (Mean corpuscular hemoglobin concentration)', 28.00, 34.10)
-    #             MCV = st.sidebar.slider('MCV (Mean Cell Volume)', 70.00, 104.70)
-    #             data = {
-    #                 'Gender' : Gender,
-    #                 'Hemoglobin': Hemoglobin,
-    #                 'MCH': MCH,
-    #                 'MCHC': MCHC,
-    #                 'MCV':MCV
-    #             }
-    #             fitur = pd.DataFrame(data, index = [0])
-
-    #             return fitur
-    #         input = input_user()
-    #         st.subheader('Parameter Inputan')
-    #         st.write(input)
-
-    #         #from sklearn import preprocessing
-    #         #normalisasi= preprocessing.normalize(input)
-    #         #normalisasi
-    #         #from sklearn.preprocessing import StandardScaler
-    #         #scaler_inp = StandardScaler()
-    #         #scaled_inp = scaler_inp.fit_transform(input)
-    #         #features_names_inp = input.columns.copy()
-    #         #scaled_features = pd.DataFrame(scaled, columns=features_names_inp)
-    #         #test_d = scaled.fit_transform(input)
-    #         #pd.DataFrame(test_d)
-
-
-    #     elif option == 'K-Means':
-    #         st.write("""## Halaman Metode K-Means""") #menampilkan judul halaman dataframe
-
-    #         #membuat dataframe dengan pandas yang terdiri dari 2 kolom dan 4 baris data
-    #         df = pd.DataFrame({
-    #             'Column 1':[1,2,3,4],
-    #             'Column 2':[10,12,14,16]
-    #         })
-    #         df #menampilkan dataframe
-
-if selected == 'Prediksi':
-    st.write("""## Hasil Prediksi""") #menampilkan judul halaman dataframe
-    #Prediksi
+            st.write(input_pred)

@@ -16,7 +16,7 @@ from sklearn.tree import DecisionTreeClassifier
 
 st.title("PENAMBANGAN DATA C")
 
-data_set_description, upload_data, preprocessing, modeling, implementation = st.tabs(["Data Set Description", "Data", "Preprocessing", "Modeling", "Implementation"])
+data_set_description, upload_data, preprocessing, modeling, implementation = st.tabs(["Deskripsi DataSet", "DataSet", "Preprocessing", "Modeling", "Implementation"])
 
 with data_set_description:
     st.write("##### Nama  : Theresia Nazela ")

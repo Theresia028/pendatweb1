@@ -98,41 +98,7 @@ with preprocessing:
 
     st.write(labels)
 
-    # st.subheader("""Normalisasi Data""")
-    # st.write("""Rumus Normalisasi Data :""")
-    # st.image('https://i.stack.imgur.com/EuitP.png', use_column_width=False, width=250)
-    # st.markdown("""
-    # Dimana :
-    # - X = data yang akan dinormalisasi atau data asli
-    # - min = nilai minimum semua data asli
-    # - max = nilai maksimum semua data asli
-    # """)
-    # df.weather.value_counts()
-    # df = df.drop(columns=["date"])
-    # #Mendefinisikan Varible X dan Y
-    # X = df.drop(columns=['weather'])
-    # y = df['weather'].values
-    # df_min = X.min()
-    # df_max = X.max()
-
-    # #NORMALISASI NILAI X
-    # scaler = MinMaxScaler()
-    # #scaler.fit(features)
-    # #scaler.transform(features)
-    # scaled = scaler.fit_transform(X)
-    # features_names = X.columns.copy()
-    # #features_names.remove('label')
-    # scaled_features = pd.DataFrame(scaled, columns=features_names)
-
-    # #Save model normalisasi
-    # from sklearn.utils.validation import joblib
-    # norm = "normalisasi.save"
-    # joblib.dump(scaled_features, norm) 
-
-
-    # st.subheader('Hasil Normalisasi Data')
-    # st.write(scaled_features)
-
+  
 with modeling:
     training, test = train_test_split(scaled_features,test_size=0.2, random_state=1)#Nilai X training dan Nilai X testing
     training_label, test_label = train_test_split(y, test_size=0.2, random_state=1)#Nilai Y training dan Nilai Y testing
